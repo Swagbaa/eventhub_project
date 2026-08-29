@@ -1,3 +1,7 @@
+hosting here: https://eventhub-project-yxi7.onrender.com
+
+
+
 # EventHub
 
 ღონისძიებების განცხადება-ძიების ვებ პორტალი, აგებული Flask-ზე.
@@ -137,3 +141,5 @@ pytest -v
 | External API Integration           | `app/utils.py` `get_weather()` (OpenWeatherMap)    |
 | Logging                            | `app/utils.py` `setup_logging()` → `logs/eventhub.log` |
 | Testing (min. 3 ტესტი)             | `tests/` (14 ტესტი სამივე კატეგორიაზე)             |
+
+
