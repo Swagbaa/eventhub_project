@@ -30,7 +30,7 @@ def add_event():
         db.session.add(event)
         db.session.commit()
         logger.info("Event created: id=%s title=%r by %s", event.id, event.title, current_user.email)
-        flash("ღონისძიება წარმატებით დაემატა!", "success")
+        flash("Event has been added!", "success")
         return redirect(url_for("main.event_detail", event_id=event.id))
 
     return render_template("add_event.html", form=form)
@@ -51,7 +51,7 @@ def edit_event(event_id):
         _populate_event_from_form(event, form)
         db.session.commit()
         logger.info("Event updated: id=%s by %s", event.id, current_user.email)
-        flash("ღონისძიება წარმატებით განახლდა.", "success")
+        flash("Event has been renewed.", "success")
         return redirect(url_for("main.event_detail", event_id=event.id))
 
     return render_template("edit_event.html", form=form, event=event)
@@ -70,5 +70,5 @@ def delete_event(event_id):
     logger.info("Event deleted: id=%s title=%r by %s", event.id, event.title, current_user.email)
     db.session.delete(event)
     db.session.commit()
-    flash("ღონისძიება წაიშალა.", "info")
+    flash("Even deleted.", "info")
     return redirect(url_for("main.index"))

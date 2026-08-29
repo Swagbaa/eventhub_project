@@ -9,14 +9,10 @@
 ## შინაარსი
 
 - [ფუნქციონალი](#ფუნქციონალი)
-- [ტექნოლოგიები](#ტექნოლოგიები)
 - [პროექტის სტრუქტურა](#პროექტის-სტრუქტურა)
 - [ლოკალურად გაშვება](#ლოკალურად-გაშვება)
-- [გარემოს ცვლადები (.env)](#გარემოს-ცვლადები-env)
 - [ტესტირება](#ტესტირება)
 - [ლოგირება](#ლოგირება)
-- [GitHub-ზე ატვირთვა](#github-ზე-ატვირთვა)
-- [Production დეპლოი (Render.com)](#production-დეპლოი-rendercom)
 - [მოთხოვნების შესაბამისობა](#მოთხოვნების-შესაბამისობა)
 
 ## ფუნქციონალი
@@ -39,11 +35,6 @@
 - გარე API: OpenWeatherMap — ღონისძიების გვერდზე ჩანს მიმდინარე
   ამინდი ლოკაციისთვის (მონაცემი მოდის დინამიურად)
 
-## ტექნოლოგიები
-
-Flask 3, Flask-SQLAlchemy, Flask-Login, Flask-WTF, WTForms,
-SQLite (dev/test) / PostgreSQL (production-ready), Bootstrap 5,
-Pillow (სურათების დამუშავება), requests (გარე API), pytest.
 
 ## პროექტის სტრუქტურა
 
@@ -68,7 +59,6 @@ eventhub/
 ├── run.py
 ├── requirements.txt
 ├── Procfile                # production-ში გასაშვებად (gunicorn)
-└── .env.example
 ```
 
 ## ლოკალურად გაშვება
@@ -95,18 +85,6 @@ eventhub/
    პირველივე გაშვებაზე ავტომატურად შეიქმნება `instance/eventhub.db`
    (SQLite) საჭირო ცხრილებით.
 
-## გარემოს ცვლადები (.env)
-
-| ცვლადი                | აღწერა                                                        |
-|------------------------|----------------------------------------------------------------|
-| `SECRET_KEY`           | გრძელი შემთხვევითი სტრიქონი (სესიების/CSRF-ის დასაცავად)       |
-| `DATABASE_URL`         | არასავალდებულო — production-ში PostgreSQL-ის connection string |
-| `OPENWEATHER_API_KEY`  | უფასო გასაღები [openweathermap.org/api](https://openweathermap.org/api)-დან |
-
-**შენიშვნა:** თუ `OPENWEATHER_API_KEY` არ არის მითითებული ან API
-მოთხოვნა ჩავარდება, ღონისძიების გვერდი მაინც ჩაიტვირთება — უბრალოდ
-აჩვენებს "ამინდი ამჟამად მიუწვდომელია" და შეცდომას ჩაწერს ლოგში,
-ვებ-გვერდი არ ავარდება.
 
 ## ტესტირება
 
@@ -139,42 +117,9 @@ pytest -v
 - ღონისძიების რედაქტირება/წაშლა (და უნებართვო მცდელობები — 403)
 - გარე (weather) API-ის შეცდომები
 
-## GitHub-ზე ატვირთვა
 
-```bash
-cd eventhub
-git init
-git add .
-git commit -m "Initial commit: EventHub Flask app"
-git branch -M main
-git remote add origin https://github.com/<თქვენი-username>/eventhub.git
-git push -u origin main
-```
 
-`.gitignore` უკვე გამორიცხავს `.env`, ვირტუალურ გარემოს, SQLite
-ფაილს, ატვირთულ სურათებს და ლოგებს — ისე, რომ საიდუმლო
-მონაცემები არ აღმოჩნდეს repo-ში.
 
-## Production დეპლოი (Render.com)
-
-დავალება მოითხოვს აპლიკაციის განთავსებას რეალურ URL-ზე. უმარტივესი
-უფასო გზა — [Render](https://render.com):
-
-1. აიტვირთეთ პროექტი GitHub-ზე (იხ. ზემოთ).
-2. Render-ზე: **New → Web Service** → დაუკავშირდით თქვენს GitHub
-   repo-ს.
-3. მიუთითეთ:
-   - **Build Command:** `pip install -r requirements.txt`
-   - **Start Command:** `gunicorn run:app`
-4. **Environment** სექციაში დაამატეთ `SECRET_KEY` და
-   `OPENWEATHER_API_KEY` (და, PostgreSQL-ის გამოყენების შემთხვევაში,
-   `DATABASE_URL` — Render-ს შეუძლია უფასო Postgres ბაზის შექმნაც).
-5. Deploy-ის შემდეგ მიიღებთ საჯარო URL-ს, მაგ.
-   `https://eventhub-xxxx.onrender.com`.
-
-ალტერნატივები იგივე პრინციპით: Railway.app, PythonAnywhere,
-Fly.io — ყველგან საკმარისია `requirements.txt` + `Procfile`/start
-command + გარემოს ცვლადები.
 
 ## მოთხოვნების შესაბამისობა
 

@@ -32,7 +32,7 @@ def edit_profile():
 
         db.session.commit()
         logger.info("Profile updated: %s", current_user.email)
-        flash("პროფილი განახლდა.", "success")
+        flash("Profile updated.", "success")
         return redirect(url_for("profile.profile"))
 
     return render_template("edit_profile.html", form=form)

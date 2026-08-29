@@ -8,16 +8,11 @@ from flask import current_app
 from PIL import Image
 from werkzeug.utils import secure_filename
 
-# Dedicated application logger — separate from Flask's/Werkzeug's own request logs
 logger = logging.getLogger("eventhub")
 
 
 def setup_logging(app):
-    """Configure a rotating file logger for business-level events.
 
-    Writes at minimum: successful logins, failed logins, created/edited/deleted
-    events, and external API errors, as required by the assignment spec.
-    """
     log_path = app.config["LOG_FILE"]
     os.makedirs(os.path.dirname(log_path), exist_ok=True)
 
@@ -26,7 +21,6 @@ def setup_logging(app):
     handler.setFormatter(formatter)
 
     logger.setLevel(logging.INFO)
-    # Avoid attaching duplicate handlers if the app factory runs more than once (tests do this)
     if not any(isinstance(h, RotatingFileHandler) for h in logger.handlers):
         logger.addHandler(handler)
 
@@ -34,8 +28,6 @@ def setup_logging(app):
 
 
 def save_profile_picture(file_storage, upload_folder):
-    """Save an uploaded profile picture with a random filename, resized to a
-    reasonable thumbnail size, and return the stored filename."""
     ext = os.path.splitext(secure_filename(file_storage.filename))[1].lower()
     filename = f"{uuid.uuid4().hex}{ext}"
     os.makedirs(upload_folder, exist_ok=True)
@@ -51,12 +43,6 @@ def save_profile_picture(file_storage, upload_folder):
 
 
 def get_weather(location):
-    """Fetch current weather for an event's location from OpenWeatherMap.
-
-    Returns a small dict on success, or None on failure (missing key, network
-    error, unknown location, etc.) — failures are logged, never raised, so a
-    flaky external API never breaks the event detail page.
-    """
     api_key = current_app.config.get("OPENWEATHER_API_KEY")
     if not api_key:
         logger.error("API request error: OPENWEATHER_API_KEY is not configured")

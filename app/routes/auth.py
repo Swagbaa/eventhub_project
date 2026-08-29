@@ -23,7 +23,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         logger.info("New user registered: %s", user.email)
-        flash("რეგისტრაცია წარმატებით დასრულდა! ახლა შეგიძლიათ შეხვიდეთ სისტემაში.", "success")
+        flash("Successfully registered, now you can log into the system.", "success")
         return redirect(url_for("auth.login"))
 
     return render_template("register.html", form=form)
@@ -42,16 +42,15 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember.data)
             logger.info("Successful login: %s", user.email)
-            flash(f"კეთილი იყოს თქვენი დაბრუნება, {user.name}!", "success")
+            flash(f"Welcome back, {user.name}!", "success")
 
             next_page = request.args.get("next")
-            # Only ever redirect to a relative, in-app path — never to an external host
             if next_page and urlparse(next_page).netloc == "":
                 return redirect(next_page)
             return redirect(url_for("main.index"))
 
         logger.warning("Failed login attempt for email: %s", email)
-        flash("ელფოსტა ან პაროლი არასწორია.", "danger")
+        flash("Email or password is incorrect.", "danger")
 
     return render_template("login.html", form=form)
 
@@ -61,5 +60,5 @@ def login():
 def logout():
     logger.info("User logged out: %s", current_user.email)
     logout_user()
-    flash("წარმატებით გამოხვედით სისტემიდან.", "info")
+    flash("Successfully logged out.", "info")
     return redirect(url_for("main.index"))

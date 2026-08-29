@@ -25,56 +25,56 @@ from app.models import CATEGORIES, User
 
 
 class RegistrationForm(FlaskForm):
-    name = StringField("სახელი", validators=[DataRequired(), Length(min=2, max=80)])
-    email = StringField("ელფოსტა", validators=[DataRequired(), Email(), Length(max=140)])
-    password = PasswordField("პაროლი", validators=[DataRequired(), Length(min=6, max=128)])
+    name = StringField("Name", validators=[DataRequired(), Length(min=2, max=80)])
+    email = StringField("Email", validators=[DataRequired(), Email(), Length(max=140)])
+    password = PasswordField("Password", validators=[DataRequired(), Length(min=6, max=128)])
     confirm_password = PasswordField(
-        "გაიმეორეთ პაროლი",
-        validators=[DataRequired(), EqualTo("password", message="პაროლები არ ემთხვევა")],
+        "Repeat password",
+        validators=[DataRequired(), EqualTo("password", message="Password doesn't match")],
     )
-    submit = SubmitField("რეგისტრაცია")
+    submit = SubmitField("Register")
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data.lower().strip()).first():
-            raise ValidationError("ეს ელფოსტა უკვე დარეგისტრირებულია.")
+            raise ValidationError("This email is already registered.")
 
 
 class LoginForm(FlaskForm):
-    email = StringField("ელფოსტა", validators=[DataRequired(), Email()])
-    password = PasswordField("პაროლი", validators=[DataRequired()])
-    remember = BooleanField("დამახსოვრება")
-    submit = SubmitField("შესვლა")
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    remember = BooleanField("Remember me")
+    submit = SubmitField("Enter")
 
 
 class EventForm(FlaskForm):
-    title = StringField("სათაური", validators=[DataRequired(), Length(max=140)])
+    title = StringField("Title", validators=[DataRequired(), Length(max=140)])
     short_description = TextAreaField(
-        "მოკლე აღწერა", validators=[DataRequired(), Length(max=280)]
+        "Short description", validators=[DataRequired(), Length(max=280)]
     )
-    full_description = TextAreaField("სრული აღწერა", validators=[DataRequired()])
-    location = StringField("ლოკაცია (ქალაქი)", validators=[DataRequired(), Length(max=140)])
-    date = DateField("თარიღი", validators=[DataRequired()], format="%Y-%m-%d")
+    full_description = TextAreaField("Full description", validators=[DataRequired()])
+    location = StringField("Location (City)", validators=[DataRequired(), Length(max=140)])
+    date = DateField("Date", validators=[DataRequired()], format="%Y-%m-%d")
     ticket_price = FloatField(
-        "ბილეთის ფასი",
-        validators=[Optional(), NumberRange(min=0, message="ფასი არ შეიძლება იყოს უარყოფითი")],
+        "Ticket price",
+        validators=[Optional(), NumberRange(min=0, message="Price can't be negative")],
         default=0,
     )
-    organizer = StringField("ორგანიზატორი", validators=[DataRequired(), Length(max=140)])
+    organizer = StringField("Organizer", validators=[DataRequired(), Length(max=140)])
     category = SelectField(
-        "კატეგორია", choices=[(c, c) for c in CATEGORIES], validators=[DataRequired()]
+        "Category", choices=[(c, c) for c in CATEGORIES], validators=[DataRequired()]
     )
-    submit = SubmitField("გამოქვეყნება")
+    submit = SubmitField("Publish")
 
 
 class ProfileForm(FlaskForm):
-    name = StringField("სახელი", validators=[DataRequired(), Length(min=2, max=80)])
-    email = StringField("ელფოსტა", validators=[DataRequired(), Email(), Length(max=140)])
+    name = StringField("Name", validators=[DataRequired(), Length(min=2, max=80)])
+    email = StringField("Email", validators=[DataRequired(), Email(), Length(max=140)])
     picture = FileField(
-        "პროფილის სურათი", validators=[Optional(), FileAllowed(["jpg", "jpeg", "png", "gif", "webp"])]
+        "Profile picture", validators=[Optional(), FileAllowed(["jpg", "jpeg", "png", "gif", "webp"])]
     )
-    submit = SubmitField("შენახვა")
+    submit = SubmitField("Save")
 
     def validate_email(self, field):
         existing = User.query.filter_by(email=field.data.lower().strip()).first()
         if existing and existing.id != current_user.id:
-            raise ValidationError("ეს ელფოსტა უკვე გამოიყენება სხვა მომხმარებლის მიერ.")
+            raise ValidationError("This email is already used by another user.")

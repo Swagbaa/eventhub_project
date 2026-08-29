@@ -7,5 +7,5 @@ login_manager = LoginManager()
 csrf = CSRFProtect()
 
 login_manager.login_view = "auth.login"
-login_manager.login_message = "გთხოვთ გაიაროთ ავტორიზაცია, რომ ნახოთ ეს გვერდი."
+login_manager.login_message = "Please log in to see this page."
 login_manager.login_message_category = "warning"

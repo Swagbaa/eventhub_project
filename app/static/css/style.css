@@ -1,11 +1,3 @@
-/* ==========================================================================
-   EventHub — "Marquee Ticket" visual identity
-   Palette: deep plum-black stage, marquee gold + ticket-stub red accents.
-   Display type: Bebas Neue (poster/marquee lettering)
-   Body type: Inter
-   Utility/numeric type: IBM Plex Mono (dates, prices — read like a ticket)
-   ========================================================================== */
-
 :root {
   --color-bg: #14121c;
   --color-bg-alt: #19162280;
@@ -286,7 +278,6 @@ h1, h2, h3, .display-heading {
   padding: 0.15rem 0.4rem;
 }
 
-/* notch circles to sell the "torn ticket" look */
 .ticket-card__stub::before,
 .ticket-card__stub::after {
   content: "";
