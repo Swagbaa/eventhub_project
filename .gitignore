@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Environment
+.env
+
+# Database
+instance/*.db
+*.db
+
+# Logs
+logs/*.log
+
+# Uploaded user content
+app/static/uploads/*
+!app/static/uploads/.gitkeep
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Pytest
+.pytest_cache/

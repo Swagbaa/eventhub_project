@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}{{ user.name }}{% endblock %}
+
+{% block content %}
+<div class="card-eventhub mb-4">
+  <div class="d-flex flex-wrap align-items-center gap-3">
+    <img src="{{ avatar_url(user) }}" class="avatar-eventhub-lg" alt="">
+    <div class="flex-grow-1">
+      <h1 class="mb-1">{{ user.name }}</h1>
+      <p class="text-muted-custom text-mono mb-0">{{ user.email }}</p>
+      <p class="text-muted-custom mb-0" style="font-size:0.85rem;">member since {{ user.created_at.strftime('%b %Y') }}</p>
+    </div>
+    {% if is_own %}
+      <a href="{{ url_for('profile.edit_profile') }}" class="btn btn-eventhub-outline">Edit profile</a>
+    {% endif %}
+  </div>
+</div>
+
+<h2 class="mb-3" style="font-size:1.3rem;">
+  {% if is_own %}Your events{% else %}Events by {{ user.name }}{% endif %}
+</h2>
+
+{% if events %}
+<div class="row g-4">
+  {% for event in events %}
+  <div class="col-12 col-sm-6 col-lg-4">
+    <div class="ticket-card">
+      <div class="ticket-card__main">
+        <span class="ticket-card__category">{{ event.category }}</span>
+        <h3 class="ticket-card__title">{{ event.title }}</h3>
+        <p class="ticket-card__desc">{{ event.short_description }}</p>
+        <div class="d-flex gap-2 mt-auto">
+          <a href="{{ url_for('main.event_detail', event_id=event.id) }}" class="btn btn-eventhub-outline btn-sm">Read More</a>
+          {% if is_own %}
+            <a href="{{ url_for('events.edit_event', event_id=event.id) }}" class="btn btn-eventhub-outline btn-sm">Edit</a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="ticket-card__stub">
+        <span class="stub-day">{{ event.date.strftime('%d') }}</span>
+        <span class="stub-month">{{ event.date.strftime('%b') }}</span>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="card-eventhub text-center">
+  <p class="text-muted-custom mb-0">
+    {% if is_own %}You haven't posted anything yet — <a href="{{ url_for('events.add_event') }}">add your first event</a>.
+    {% else %}No events posted yet.{% endif %}
+  </p>
+</div>
+{% endif %}
+{% endblock %}

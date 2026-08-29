@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Add Event{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="card-eventhub">
+      <p class="text-mono text-muted-custom mb-1" style="letter-spacing:0.15em;">NEW LISTING</p>
+      <h1 class="mb-4">Add an event</h1>
+
+      <form method="post" novalidate>
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+          <label class="form-label-eventhub d-block">{{ form.title.label.text }}</label>
+          {{ form.title(class="form-control") }}
+          {% for e in form.title.errors %}<div class="invalid-feedback-eventhub">{{ e }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label-eventhub d-block">{{ form.short_description.label.text }}</label>
+          {{ form.short_description(class="form-control", rows=2) }}
+          {% for e in form.short_description.errors %}<div class="invalid-feedback-eventhub">{{ e }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label-eventhub d-block">{{ form.full_description.label.text }}</label>
+          {{ form.full_description(class="form-control", rows=5) }}
+          {% for e in form.full_description.errors %}<div class="invalid-feedback-eventhub">{{ e }}</div>{% endfor %}
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label-eventhub d-block">{{ form.location.label.text }}</label>
+            {{ form.location(class="form-control", placeholder="e.g. Tbilisi") }}
+            {% for e in form.location.errors %}<div class="invalid-feedback-eventhub">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label-eventhub d-block">{{ form.date.label.text }}</label>
+            {{ form.date(class="form-control", type="date") }}
+            {% for e in form.date.errors %}<div class="invalid-feedback-eventhub">{{ e }}</div>{% endfor %}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label-eventhub d-block">{{ form.ticket_price.label.text }}</label>
+            {{ form.ticket_price(class="form-control", placeholder="0 = free", step="0.01") }}
+            {% for e in form.ticket_price.errors %}<div class="invalid-feedback-eventhub">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="col-md-4 mb-3">
+            <label class="form-label-eventhub d-block">{{ form.organizer.label.text }}</label>
+            {{ form.organizer(class="form-control") }}
+            {% for e in form.organizer.errors %}<div class="invalid-feedback-eventhub">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="col-md-4 mb-3">
+            <label class="form-label-eventhub d-block">{{ form.category.label.text }}</label>
+            {{ form.category(class="form-select") }}
+            {% for e in form.category.errors %}<div class="invalid-feedback-eventhub">{{ e }}</div>{% endfor %}
+          </div>
+        </div>
+
+        {{ form.submit(class="btn btn-eventhub-primary mt-2") }}
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}{{ event.title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-9">
+    <div class="card-eventhub">
+      <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
+        <span class="badge-category">{{ event.category }}</span>
+        <span class="text-mono text-muted-custom">posted {{ event.created_at.strftime('%d %b %Y') }}</span>
+      </div>
+
+      <h1 class="mb-1">{{ event.title }}</h1>
+      <p class="text-muted-custom mb-3">
+        by <a href="{{ url_for('profile.public_profile', user_id=event.author.id) }}">{{ event.author.name }}</a>
+      </p>
+
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="text-mono text-muted-custom" style="font-size:0.75rem;">DATE</div>
+          <div class="text-mono">{{ event.date.strftime('%d %b %Y') }}</div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="text-mono text-muted-custom" style="font-size:0.75rem;">LOCATION</div>
+          <div class="text-mono">{{ event.location }}</div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="text-mono text-muted-custom" style="font-size:0.75rem;">TICKET</div>
+          <div class="text-mono">{{ '%.2f'|format(event.ticket_price) ~ ' ₾' if event.ticket_price else 'Free' }}</div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="text-mono text-muted-custom" style="font-size:0.75rem;">ORGANIZER</div>
+          <div class="text-mono">{{ event.organizer }}</div>
+        </div>
+      </div>
+
+      {% if weather %}
+        <div class="weather-chip mb-4">
+          <img src="https://openweathermap.org/img/wn/{{ weather.icon }}.png" width="28" height="28" alt="" style="filter: drop-shadow(0 0 2px rgba(0,0,0,0.4));">
+          <span>{{ weather.city }}: {{ weather.temp }}°C, {{ weather.description }} (feels like {{ weather.feels_like }}°C)</span>
+        </div>
+      {% else %}
+        <div class="weather-chip mb-4 text-muted-custom">Weather currently unavailable for this location.</div>
+      {% endif %}
+
+      <h2 style="font-size:1.2rem;" class="mb-2">Details</h2>
+      <p style="white-space: pre-line;">{{ event.full_description }}</p>
+
+      {% if current_user.is_authenticated and current_user.id == event.author_id %}
+        <div class="d-flex gap-2 mt-4">
+          <a href="{{ url_for('events.edit_event', event_id=event.id) }}" class="btn btn-eventhub-outline">Edit</a>
+          <form action="{{ url_for('events.delete_event', event_id=event.id) }}" method="post" onsubmit="return confirm('წავშალო ეს ღონისძიება?');">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="btn btn-eventhub-danger">Delete</button>
+          </form>
+        </div>
+      {% endif %}
+
+      <a href="{{ url_for('main.index') }}" class="d-inline-block mt-4 text-muted-custom">&larr; Back to all events</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

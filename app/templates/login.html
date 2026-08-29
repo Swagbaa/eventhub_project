@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-5">
+    <div class="card-eventhub">
+      <p class="text-mono text-muted-custom mb-1" style="letter-spacing:0.15em;">WELCOME BACK</p>
+      <h1 class="mb-4">Log in</h1>
+
+      <form method="post" novalidate>
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+          <label class="form-label-eventhub d-block">{{ form.email.label.text }}</label>
+          {{ form.email(class="form-control", autofocus=true) }}
+          {% for e in form.email.errors %}<div class="invalid-feedback-eventhub">{{ e }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label-eventhub d-block">{{ form.password.label.text }}</label>
+          {{ form.password(class="form-control") }}
+          {% for e in form.password.errors %}<div class="invalid-feedback-eventhub">{{ e }}</div>{% endfor %}
+        </div>
+
+        <div class="form-check mb-3">
+          {{ form.remember(class="form-check-input") }}
+          <label class="form-check-label text-muted-custom" for="remember">{{ form.remember.label.text }}</label>
+        </div>
+
+        {{ form.submit(class="btn btn-eventhub-primary w-100") }}
+      </form>
+
+      <p class="text-muted-custom mt-3 mb-0">
+        არ გაქვთ ანგარიში? <a href="{{ url_for('auth.register') }}">დარეგისტრირდით</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

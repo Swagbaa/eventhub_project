@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}About{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card-eventhub">
+      <p class="text-mono text-muted-custom mb-1" style="letter-spacing:0.15em;">ABOUT THE VENUE</p>
+      <h1 class="mb-3">What EventHub is</h1>
+      <p class="text-muted-custom">
+        EventHub is a small community board for local happenings — gigs, workshops,
+        art shows, meetups, whatever's on. Anyone can look through what's listed
+        without signing up. Create a free account when you want to post your own
+        event or keep track of the ones you've shared.
+      </p>
+      <hr style="border-color: var(--color-border);">
+      <h2 class="mb-3" style="font-size:1.4rem;">How it works</h2>
+      <ul class="text-muted-custom">
+        <li>Browse events by category, or sort by date — no account needed.</li>
+        <li>Register to post your own event: title, description, location, date, price, and organizer.</li>
+        <li>Only you can edit or delete the events you've posted.</li>
+        <li>Each event page pulls in the current weather for its location.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

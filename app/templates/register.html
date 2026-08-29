@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-5">
+    <div class="card-eventhub">
+      <p class="text-mono text-muted-custom mb-1" style="letter-spacing:0.15em;">GET YOUR TICKET</p>
+      <h1 class="mb-4">Create an account</h1>
+
+      <form method="post" novalidate>
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+          <label class="form-label-eventhub d-block">{{ form.name.label.text }}</label>
+          {{ form.name(class="form-control", autofocus=true) }}
+          {% for e in form.name.errors %}<div class="invalid-feedback-eventhub">{{ e }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label-eventhub d-block">{{ form.email.label.text }}</label>
+          {{ form.email(class="form-control") }}
+          {% for e in form.email.errors %}<div class="invalid-feedback-eventhub">{{ e }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label-eventhub d-block">{{ form.password.label.text }}</label>
+          {{ form.password(class="form-control") }}
+          {% for e in form.password.errors %}<div class="invalid-feedback-eventhub">{{ e }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label-eventhub d-block">{{ form.confirm_password.label.text }}</label>
+          {{ form.confirm_password(class="form-control") }}
+          {% for e in form.confirm_password.errors %}<div class="invalid-feedback-eventhub">{{ e }}</div>{% endfor %}
+        </div>
+
+        {{ form.submit(class="btn btn-eventhub-primary w-100") }}
+      </form>
+
+      <p class="text-muted-custom mt-3 mb-0">
+        უკვე გაქვთ ანგარიში? <a href="{{ url_for('auth.login') }}">შედით სისტემაში</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

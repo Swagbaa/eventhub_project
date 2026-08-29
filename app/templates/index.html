@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Events{% endblock %}
+
+{% block content %}
+<section class="hero-marquee">
+  <p class="text-mono text-muted-custom mb-2" style="letter-spacing:0.15em;">NOW SHOWING</p>
+  <h1>Every event in town, <span class="accent">one marquee</span>.</h1>
+  <p>Browse what's happening, grab the details, and if you're hosting something —
+     put it up in lights yourself.</p>
+  {% if not current_user.is_authenticated %}
+    <a href="{{ url_for('auth.register') }}" class="btn btn-eventhub-primary mt-2">Join EventHub</a>
+  {% else %}
+    <a href="{{ url_for('events.add_event') }}" class="btn btn-eventhub-primary mt-2">Add Event</a>
+  {% endif %}
+</section>
+
+<form method="get" class="d-flex flex-wrap gap-2 align-items-center mb-4">
+  <div>
+    <select name="category" class="form-select form-select-sm" onchange="this.form.submit()">
+      <option value="">All categories</option>
+      {% for c in categories %}
+        <option value="{{ c }}" {% if current_category == c %}selected{% endif %}>{{ c }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div>
+    <select name="sort" class="form-select form-select-sm" onchange="this.form.submit()">
+      <option value="newest" {% if current_sort == 'newest' %}selected{% endif %}>Newest posted</option>
+      <option value="oldest" {% if current_sort == 'oldest' %}selected{% endif %}>Oldest posted</option>
+      <option value="date_asc" {% if current_sort == 'date_asc' %}selected{% endif %}>Event date ↑</option>
+      <option value="date_desc" {% if current_sort == 'date_desc' %}selected{% endif %}>Event date ↓</option>
+    </select>
+  </div>
+  {% if current_category or current_sort != 'newest' %}
+    <a href="{{ url_for('main.index') }}" class="btn btn-eventhub-outline btn-sm">Clear</a>
+  {% endif %}
+</form>
+
+{% if events %}
+<div class="row g-4">
+  {% for event in events %}
+  <div class="col-12 col-sm-6 col-lg-4">
+    <div class="ticket-card">
+      <div class="ticket-card__main">
+        <span class="ticket-card__category">{{ event.category }}</span>
+        <h3 class="ticket-card__title">{{ event.title }}</h3>
+        <p class="ticket-card__desc">{{ event.short_description }}</p>
+        <div class="ticket-card__author">
+          by <a href="{{ url_for('profile.public_profile', user_id=event.author.id) }}">{{ event.author.name }}</a>
+        </div>
+        <a href="{{ url_for('main.event_detail', event_id=event.id) }}" class="btn btn-eventhub-outline btn-sm mt-3 align-self-start">Read More</a>
+      </div>
+      <div class="ticket-card__stub">
+        <span class="stub-day">{{ event.date.strftime('%d') }}</span>
+        <span class="stub-month">{{ event.date.strftime('%b') }}</span>
+        <span class="stub-price">{{ '%.0f'|format(event.ticket_price) if event.ticket_price else 'FREE' }}{% if event.ticket_price %}₾{% endif %}</span>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% if pagination.pages > 1 %}
+<nav class="mt-4">
+  <ul class="pagination justify-content-center">
+    <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+      <a class="page-link" href="{{ url_for('main.index', page=pagination.prev_num, category=current_category, sort=current_sort) }}">‹</a>
+    </li>
+    {% for p in pagination.iter_pages() %}
+      {% if p %}
+        <li class="page-item {% if p == pagination.page %}active{% endif %}">
+          <a class="page-link" href="{{ url_for('main.index', page=p, category=current_category, sort=current_sort) }}">{{ p }}</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">…</span></li>
+      {% endif %}
+    {% endfor %}
+    <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+      <a class="page-link" href="{{ url_for('main.index', page=pagination.next_num, category=current_category, sort=current_sort) }}">›</a>
+    </li>
+  </ul>
+</nav>
+{% endif %}
+
+{% else %}
+<div class="card-eventhub text-center">
+  <p class="text-muted-custom mb-0">No events here yet{% if current_category %} in {{ current_category }}{% endif %}. Be the first to put one up.</p>
+</div>
+{% endif %}
+{% endblock %}

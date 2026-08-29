@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Forbidden{% endblock %}
+
+{% block content %}
+<div class="error-stage">
+  <div class="error-code">403</div>
+  <h2 class="mb-3">Staff only past this point</h2>
+  <p class="text-muted-custom mb-4">You don't have permission to do that — it belongs to someone else's listing.</p>
+  <a href="{{ url_for('main.index') }}" class="btn btn-eventhub-primary">Back to Events</a>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-6">
+    <div class="card-eventhub">
+      <p class="text-mono text-muted-custom mb-1" style="letter-spacing:0.15em;">YOUR DETAILS</p>
+      <h1 class="mb-4">Edit profile</h1>
+
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <img src="{{ avatar_url(current_user) }}" class="avatar-eventhub-lg" alt="">
+      </div>
+
+      <form method="post" enctype="multipart/form-data" novalidate>
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+          <label class="form-label-eventhub d-block">{{ form.name.label.text }}</label>
+          {{ form.name(class="form-control") }}
+          {% for e in form.name.errors %}<div class="invalid-feedback-eventhub">{{ e }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label-eventhub d-block">{{ form.email.label.text }}</label>
+          {{ form.email(class="form-control") }}
+          {% for e in form.email.errors %}<div class="invalid-feedback-eventhub">{{ e }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label-eventhub d-block">{{ form.picture.label.text }}</label>
+          {{ form.picture(class="form-control") }}
+          {% for e in form.picture.errors %}<div class="invalid-feedback-eventhub">{{ e }}</div>{% endfor %}
+        </div>
+
+        <div class="d-flex gap-2 mt-2">
+          {{ form.submit(class="btn btn-eventhub-primary") }}
+          <a href="{{ url_for('profile.profile') }}" class="btn btn-eventhub-outline">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

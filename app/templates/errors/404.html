@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Not Found{% endblock %}
+
+{% block content %}
+<div class="error-stage">
+  <div class="error-code">404</div>
+  <h2 class="mb-3">This show isn't on the schedule</h2>
+  <p class="text-muted-custom mb-4">The page you're looking for doesn't exist, got moved, or was taken down.</p>
+  <a href="{{ url_for('main.index') }}" class="btn btn-eventhub-primary">Back to Events</a>
+</div>
+{% endblock %}
