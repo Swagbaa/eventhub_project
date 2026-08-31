@@ -2,18 +2,9 @@ hosting here: https://eventhub-project-yxi7.onrender.com
 
 
 
-# EventHub
-
-ღონისძიებების განცხადება-ძიების ვებ პორტალი, აგებული Flask-ზე.
-პროექტი მოიცავს რეგისტრაცია/ავტორიზაციას, ღონისძიებების CRUD-ს
-(მხოლოდ საკუთარი ჩანაწერების რედაქტირება/წაშლა), როლებზე
-დაფუძნებულ დაშვებებს, გარე API ინტეგრაციას (OpenWeatherMap),
-ლოგირებას და unit ტესტებს.
-
 ## შინაარსი
 
 - [ფუნქციონალი](#ფუნქციონალი)
-- [პროექტის სტრუქტურა](#პროექტის-სტრუქტურა)
 - [ლოკალურად გაშვება](#ლოკალურად-გაშვება)
 - [ტესტირება](#ტესტირება)
 - [ლოგირება](#ლოგირება)
@@ -39,31 +30,6 @@ hosting here: https://eventhub-project-yxi7.onrender.com
 - გარე API: OpenWeatherMap — ღონისძიების გვერდზე ჩანს მიმდინარე
   ამინდი ლოკაციისთვის (მონაცემი მოდის დინამიურად)
 
-
-## პროექტის სტრუქტურა
-
-```
-eventhub/
-├── app/
-│   ├── __init__.py        # app factory, error handlers, logging setup
-│   ├── extensions.py      # db, login_manager, csrf
-│   ├── models.py          # User, Event
-│   ├── forms.py           # WTForms ფორმები
-│   ├── utils.py           # ლოგირება, სურათის შენახვა, weather API
-│   ├── routes/
-│   │   ├── main.py        # events feed, about, event detail
-│   │   ├── auth.py        # register/login/logout
-│   │   ├── events.py      # add/edit/delete event
-│   │   └── profile.py     # profile view/edit
-│   ├── templates/
-│   └── static/
-├── tests/                  # pytest: routes, login, permissions
-├── logs/                   # eventhub.log (runtime log ფაილი)
-├── config.py
-├── run.py
-├── requirements.txt
-├── Procfile                # production-ში გასაშვებად (gunicorn)
-```
 
 ## ლოკალურად გაშვება
 
