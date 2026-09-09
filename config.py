@@ -6,7 +6,6 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    """Base configuration shared by every environment."""
 
     SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key-change-me")
 
@@ -39,8 +38,6 @@ class TestingConfig(Config):
     TESTING = True
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
-    # Keep a single shared in-memory connection alive for the whole test session,
-    # otherwise every new connection would see a blank, table-less database.
     SQLALCHEMY_ENGINE_OPTIONS = {
         "poolclass": StaticPool,
         "connect_args": {"check_same_thread": False},
