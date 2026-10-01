@@ -12,7 +12,6 @@ class Config:
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "DATABASE_URL", "sqlite:///" + os.path.join(basedir, "instance", "eventhub.db")
     )
-    # Some hosts (e.g. Render/Heroku) hand out "postgres://" — SQLAlchemy 1.4+/2.x needs "postgresql://"
     if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
         SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace(
             "postgres://", "postgresql://", 1

@@ -19,7 +19,6 @@ def test_other_user_cannot_delete_event(client, db, user_bob, alice_event):
     login(client, "bob@example.com", "password123")
     response = client.post(f"/event/{alice_event.id}/delete")
     assert response.status_code == 403
-    # The event must still exist — Bob's attempt should not have touched the database
     assert db.session.get(Event, alice_event.id) is not None
 
 

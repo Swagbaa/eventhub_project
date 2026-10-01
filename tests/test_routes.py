@@ -26,7 +26,6 @@ def test_missing_event_returns_404(client):
 
 
 def test_add_event_requires_login(client):
-    # Anonymous users should be redirected to the login page, not allowed to post
     response = client.get("/event/add", follow_redirects=True)
     assert response.status_code == 200
     assert b"login" in response.request.path.encode()
